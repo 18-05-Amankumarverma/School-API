@@ -25,103 +25,7 @@ A RESTful API for managing schools and finding nearby educational institutions b
 
 ---
 
-## 📋 Table of Contents
-- [API Endpoints](#api-endpoints)
-  - [Add School](#1-add-school)
-  - [List Schools by Proximity](#2-list-schools-by-proximity)
-- [Installation & Setup](#installation--setup)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Future Improvements](#future-improvements)
-- [Contributing](#contributing)
-- [License](#license)
-
-## API Endpoints
-
-### 1. Add School
-
-**Endpoint:** `/addSchool`  
-**Method:** `POST`  
-**Description:** Adds a new school to the database.
-
-#### Request Payload (JSON)
-
-```json
-{
-  "name": "Springfield High School",
-  "address": "742 Evergreen Terrace, Springfield",
-  "latitude": 37.7749,
-  "longitude": -122.4194
-}
-```
-
-#### Validations
-- All fields are required
-- `latitude` and `longitude` must be valid float values
-
-#### Sample Response
-
-```json
-{
-  "message": "School added successfully",
-  "schoolId": 1
-}
-```
-
-### 2. List Schools by Proximity
-
-**Endpoint:** `/listSchools`  
-**Method:** `GET`  
-**Description:** Returns a list of schools sorted by distance from the user's current location.
-
-#### Query Parameters
-- `latitude`: User's current latitude (required)
-- `longitude`: User's current longitude (required)
-
-#### Example Request
-
-```bash
-GET /listSchools?latitude=37.7749&longitude=-122.4194
-```
-
-#### Sample Response
-
-```json
-[
-  {
-    "id": 2,
-    "name": "Hill Valley School",
-    "address": "1 Main St, Hill Valley",
-    "latitude": 37.7750,
-    "longitude": -122.4183,
-    "distance_km": 0.14
-  },
-  {
-    "id": 1,
-    "name": "Springfield High School",
-    "address": "742 Evergreen Terrace",
-    "latitude": 37.7749,
-    "longitude": -122.4194,
-    "distance_km": 0.00
-  }
-]
-```
-
-## 📦 Installation & Setup
-
-### 1. Clone the repository
-
-```bash
-git clone https://github.com/18-05-Amankumarverma/School-API
-```
-
-### 2. Install dependencies
-
-```bash
-npm install
-```
-
-### 3. Configure environment
+### Configure environment
 
 Create a `.env` file and add your database credentials:
 ```env
@@ -131,8 +35,26 @@ USER="root"
 PASSWORD="aman@123"
 DBNAME="schoolDB"
 ```
+### NOTE:
 
-### 4. Run the server
+After cloning the project make sure you have mysql workbench or any sql database.
+then run this query in it
+
+```sql
+
+CREATE DATABASE schoolDB;
+USE studentDB;
+CREATE TABLE schools (
+    schoolId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    schoolName VARCHAR(100) NOT NULL,
+    address VARCHAR(100) NOT NULL,
+    latitude FLOAT,
+    longitude FLOAT
+);
+
+```
+
+### Run the server
 
 ```bash
 npm start
@@ -140,42 +62,6 @@ npm start
 
 The server should now be running at: `http://localhost:3000`
 
-## 🧪 Testing
-
-### Postman Collection
-You can test the APIs using the provided Postman collection:
-- Contains examples for both `/addSchool` and `/listSchools`
-- Includes expected request/response formats
-
-### Manual Testing Examples
-
-#### Adding a School
-```bash
-curl -X POST http://localhost:3000/addSchool \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Springfield High School",
-    "address": "742 Evergreen Terrace, Springfield",
-    "latitude": 37.7749,
-    "longitude": -122.4194
-  }'
-```
-
-#### Listing Schools
-```bash
-curl "http://localhost:3000/listSchools?latitude=37.7749&longitude=-122.4194"
-```
-
-### Environment Variables for Production
-```env
-
-PORT=3000
-HOST="localhost"
-USER="root"
-PASSWORD="aman@123"
-DBNAME="schoolDB"
-
-```
 
 ## 🚀 Future Improvements
 
@@ -188,23 +74,3 @@ DBNAME="schoolDB"
 - Add search functionality by school name
 - Include school ratings and reviews
 
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-**Need Help?** 
-- Open an issue on GitHub
-- Check the API documentation
-- Review the Postman collection examples (https://documenter.getpostman.com/view/29304319/2sB3BEmVSn#664219a4-0040-440c-aafd-62631e465d78)
